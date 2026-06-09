@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCSE Computer Science — Baseline Test</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2128;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --accent-dim: rgba(88,166,255,0.12);
+    --accent2: #3fb950;
+    --accent2-dim: rgba(63,185,80,0.12);
+    --warn: #d29922;
+    --warn-dim: rgba(210,153,34,0.12);
+    --danger: #f85149;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-subtle: #6e7681;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header .logo {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 600;
+    color: #0d1117;
+    flex-shrink: 0;
+  }
+  .site-header h1 {
+    font-size: 15px; font-weight: 600;
+    color: var(--text);
+  }
+  .site-header .badge {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 8px;
+    background: var(--warn-dim);
+    color: var(--warn);
+    border: 1px solid var(--warn);
+    border-radius: 20px;
+    opacity: 0.9;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Intro banner ── */
+  .intro-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    margin-bottom: 36px;
+  }
+  .intro-banner h2 {
+    font-size: 22px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .intro-banner p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  @media (max-width: 540px) { .meta-grid { grid-template-columns: 1fr; } }
+
+  /* ── Form elements ── */
+  label.field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  input[type="text"], select, textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  input[type="text"]:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(88,166,255,0.15);
+  }
+  select { cursor: pointer; }
+  select option { background: var(--surface2); }
+  textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
+
+  /* ── Question cards ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 20px;
+  }
+  .section-divider .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(88,166,255,0.3);
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .section-divider .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .q-card:focus-within {
+    border-color: rgba(88,166,255,0.4);
+  }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-subtle);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 9px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.65;
+    flex: 1;
+  }
+  .q-text strong { color: var(--accent); }
+  .marks-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--warn);
+    background: var(--warn-dim);
+    border: 1px solid rgba(210,153,34,0.3);
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Match/Connect ── */
+  .match-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .match-table th {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+  .match-table td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    vertical-align: middle;
+  }
+  .match-table td:first-child { color: var(--accent); font-weight: 600; }
+  .match-table select { font-size: 13px; padding: 6px 10px; }
+
+  /* ── Truth table ── */
+  .truth-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .truth-table th {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+  }
+  .truth-table td {
+    border: 1px solid var(--border);
+    padding: 9px 12px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .truth-table td.input-cell { color: var(--text-muted); }
+  .truth-table select {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 4px 8px;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  /* ── Binary grid ── */
+  .binary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .binary-table th, .binary-table td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: center;
+  }
+  .binary-table th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+  .binary-table td:first-child {
+    text-align: left;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+  .binary-table input[type="text"] {
+    font-family: 'JetBrains Mono', monospace;
+    padding: 6px 10px;
+    font-size: 13px;
+    text-align: center;
+    max-width: 100px;
+  }
+
+  /* ── Radio / Checkbox options ── */
+  .option-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .option-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .option-item:hover { border-color: rgba(88,166,255,0.4); background: var(--accent-dim); }
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    width: auto;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+  .option-item span { font-size: 13px; line-height: 1.5; }
+
+  /* ── Pixel grid for Q8 ── */
+  .pixel-grid-wrapper {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .pixel-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 36px);
+    grid-template-rows: repeat(8, 36px);
+    gap: 2px;
+  }
+  .pixel-cell {
+    width: 36px; height: 36px;
+    border-radius: 3px;
+  }
+  .pixel-cell.black { background: #ffffff; border: 1px solid var(--border); }
+  .pixel-cell.white { background: var(--surface2); border: 1px solid var(--border); }
+
+  .pixel-data {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 2.1;
+  }
+  .pixel-data .row { display: flex; gap: 6px; }
+  .pixel-data .b1 { color: var(--text); }
+  .pixel-data .b0 { color: var(--text-subtle); }
+
+  /* ── Ethernet/WiFi tick table ── */
+  .tick-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  .tick-table th {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 9px 16px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+  .tick-table th:first-child { text-align: left; }
+  .tick-table td {
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    vertical-align: middle;
+  }
+  .tick-table td:first-child { font-size: 13px; }
+  .tick-table td:not(:first-child) { text-align: center; }
+  .tick-table input[type="radio"] {
+    width: auto;
+    accent-color: var(--accent);
+    transform: scale(1.3);
+    cursor: pointer;
+  }
+
+  /* ── Storage ordering ── */
+  .storage-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .storage-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .storage-item label { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
+  .storage-item select { max-width: 80px; padding: 5px 8px; font-size: 12px; }
+  .storage-item .dev-name { flex: 1; color: var(--text); }
+  .storage-item .dev-size { color: var(--accent); }
+
+  /* ── Logic gates display ── */
+  .gates-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 12px;
+  }
+  @media (max-width: 600px) { .gates-grid { grid-template-columns: 1fr; } }
+  .gate-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+  }
+  .gate-card svg { display: block; margin: 0 auto 12px; }
+  .gate-card label.field-label { text-align: center; margin-bottom: 6px; }
+
+  /* ── ASCII code block ── */
+  .code-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 12px 0;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .code-block .kw { color: #ff7b72; }
+  .code-block .str { color: #a5d6ff; }
+  .code-block .cmt { color: var(--text-subtle); }
+
+  /* ── Inline binary answer boxes ── */
+  .binary-answer-row {
+    display: flex;
+    gap: 4px;
+    margin-top: 12px;
+    justify-content: flex-start;
+  }
+  .binary-answer-row input {
+    width: 46px; height: 46px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0;
+    border-radius: 6px;
+  }
+
+  /* ── Info callout ── */
+  .callout {
+    background: var(--accent-dim);
+    border: 1px solid rgba(88,166,255,0.25);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+  .callout strong { color: var(--accent); }
+
+  .example-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.9;
+  }
+
+  /* ── Submit button ── */
+  .submit-wrap {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-submit {
+    background: var(--accent);
+    color: #0d1117;
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px 48px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.01em;
+  }
+  .btn-submit:hover { opacity: 0.9; }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+  .submit-note {
+    font-size: 12px;
+    color: var(--text-subtle);
+  }
+
+  /* ── State overlays ── */
+  #status-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,17,23,0.92);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    padding: 24px;
+  }
+  #status-overlay.active { display: flex; }
+
+  .spinner {
+    width: 48px; height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    max-width: 560px;
+    width: 100%;
+    text-align: left;
+  }
+  .result-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .score-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--accent2);
+    line-height: 1;
+    margin: 20px 0 6px;
+  }
+  .score-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  .feedback-section h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+  .feedback-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+  }
+  .feedback-list li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 3px solid;
+    background: var(--surface2);
+  }
+  .feedback-list li.ok { border-color: var(--accent2); }
+  .feedback-list li.improve { border-color: var(--warn); }
+  .btn-dismiss {
+    margin-top: 24px;
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 11px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-dismiss:hover { background: var(--border); }
+
+  /* ── Error state ── */
+  .error-card {
+    background: var(--surface);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+  }
+  .error-card h2 { color: var(--danger); margin-bottom: 8px; }
+  .error-card p { font-size: 13px; color: var(--text-muted); }
+  .error-card .btn-dismiss { margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="site-header">
+  <div class="logo">CS</div>
+  <h1>GCSE Computer Science — Baseline Test</h1>
+  <span class="badge">45 marks · 60 min</span>
+</header>
+
+<!-- ── Status overlay ── -->
+<div id="status-overlay">
+  <!-- JS swaps content depending on state -->
+</div>
+
+<!-- ── Main form ── -->
+<div class="container">
+  <form id="exam-form" novalidate>
+
+    <!-- Student details -->
+    <div class="intro-banner">
+      <h2>Before you begin</h2>
+      <p>Complete all questions to the best of your ability. Write clearly — your answers are submitted automatically when you click <strong>Submit Exam</strong>. No calculators allowed.</p>
+      <div class="meta-grid">
+        <div>
+          <label class="field-label" for="studentName">Full Name</label>
+          <input type="text" id="studentName" name="studentName" placeholder="e.g. Alex Johnson" required autocomplete="off">
+        </div>
+        <div>
+          <label class="field-label" for="studentClass">Class / Target Grade</label>
+          <select id="studentClass" name="studentClass" required>
+            <option value="">— Select —</option>
+            <option>10A — Target: 9</option>
+            <option>10A — Target: 8</option>
+            <option>10A — Target: 7</option>
+            <option>10B — Target: 9</option>
+            <option>10B — Target: 8</option>
+            <option>10B — Target: 7</option>
+            <option>10B — Target: 6</option>
+            <option>10C — Target: 6</option>
+            <option>10C — Target: 5</option>
+            <option>10C — Target: 4</option>
+            <option>10D — Target: 5</option>
+            <option>10D — Target: 4</option>
+            <option>10D — Target: 3</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q1 — Match keywords -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q1</span>
+      <span class="section-title">Computational Thinking Vocabulary</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q1</span>
+        <span class="q-text">Match each keyword on the left to its correct definition on the right.</span>
+        <span class="marks-chip">4 marks</span>
+      </div>
+      <table class="match-table">
+        <thead>
+          <tr><th>Keyword</th><th>Definition (select letter)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Algorithm</td>
+            <td>
+              <select name="q1_algorithm" id="q1_algorithm">
+                <option value="">— Choose —</option>
+                <option value="a">a) Filtering out irrelevant characteristics to focus on what matters</option>
+                <option value="b">b) Breaking a complex problem into smaller, manageable parts</option>
+                <option value="c">c) Problem-solving methods expressing problems/solutions a computer can execute</option>
+                <option value="d">d) A list of rules/steps to follow in the correct order to solve a problem</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>2. Decompose</td>
+            <td>
+              <select name="q1_decompose" id="q1_decompose">
+                <option value="">— Choose —</option>
+                <option value="a">a) Filtering out irrelevant characteristics to focus on what matters</option>
+                <option value="b">b) Breaking a complex problem into smaller, manageable parts</option>
+                <option value="c">c) Problem-solving methods expressing problems/solutions a computer can execute</option>
+                <option value="d">d) A list of rules/steps to follow in the correct order to solve a problem</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>3. Abstraction</td>
+            <td>
+              <select name="q1_abstraction" id="q1_abstraction">
+                <option value="">— Choose —</option>
+                <option value="a">a) Filtering out irrelevant characteristics to focus on what matters</option>
+                <option value="b">b) Breaking a complex problem into smaller, manageable parts</option>
+                <option value="c">c) Problem-solving methods expressing problems/solutions a computer can execute</option>
+                <option value="d">d) A list of rules/steps to follow in the correct order to solve a problem</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>4. Computational Thinking</td>
+            <td>
+              <select name="q1_comp_thinking" id="q1_comp_thinking">
+                <option value="">— Choose —</option>
+                <option value="a">a) Filtering out irrelevant characteristics to focus on what matters</option>
+                <option value="b">b) Breaking a complex problem into smaller, manageable parts</option>
+                <option value="c">c) Problem-solving methods expressing problems/solutions a computer can execute</option>
+                <option value="d">d) A list of rules/steps to follow in the correct order to solve a problem</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q2 — Flowcharts -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q2</span>
+      <span class="section-title">Flowcharts &amp; Algorithms</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q2a</span>
+        <div class="q-text">
+          Sanjeet's light turns ON if the door is open (sensor detects light = YES), and OFF if not (NO).<br><br>
+          In the flowchart below, box <strong>A</strong> is the decision diamond, box <strong>B</strong> is reached on the NO path, and box <strong>C</strong> is reached on the YES path. What should boxes A, B, and C contain?
+        </div>
+        <span class="marks-chip">3 marks</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px;">
+        <div>
+          <label class="field-label" for="q2a_A">Box A — Decision (diamond)</label>
+          <input type="text" id="q2a_A" name="q2a_A" placeholder="e.g. Is door open?">
+        </div>
+        <div>
+          <label class="field-label" for="q2a_B">Box B — NO path (process)</label>
+          <input type="text" id="q2a_B" name="q2a_B" placeholder="e.g. Light off">
+        </div>
+        <div>
+          <label class="field-label" for="q2a_C">Box C — YES path (process)</label>
+          <input type="text" id="q2a_C" name="q2a_C" placeholder="e.g. Light on">
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q2b-i</span>
+        <span class="q-text">The flowchart on the exam paper shows: Start → Fill Kettle → Heat Water → decision <em>"Has the water boiled?"</em> → if No, loop back to Heat Water; if Yes → Make Tea → Stop.<br><br>What is the <strong>purpose</strong> of this algorithm?</span>
+        <span class="marks-chip">1 mark</span>
+      </div>
+      <textarea name="q2b_i" id="q2b_i" placeholder="Describe what the algorithm does..."></textarea>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q2b-ii</span>
+        <span class="q-text">Why do we use <strong>flowcharts</strong> to display algorithms?</span>
+        <span class="marks-chip">1 mark</span>
+      </div>
+      <textarea name="q2b_ii" id="q2b_ii" placeholder="Give one reason..."></textarea>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q3 — Iteration -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q3</span>
+      <span class="section-title">Iteration</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q3a</span>
+        <span class="q-text">What is meant by the term <strong>iteration</strong>?</span>
+        <span class="marks-chip">1 mark</span>
+      </div>
+      <textarea name="q3a" id="q3a" placeholder="Define iteration..."></textarea>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q3b</span>
+        <div class="q-text">
+          A Scratch program does:<br>
+          <em>pen down → move 10 steps → turn 15° → move 10 steps → turn 15° → move 10 steps → turn 15°</em><br><br>
+          How could you use <strong>iteration</strong> to reduce the length of this program?
+        </div>
+        <span class="marks-chip">2 marks</span>
+      </div>
+      <textarea name="q3b" id="q3b" placeholder="Describe how to use a loop..."></textarea>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q4 — Boolean Logic -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q4</span>
+      <span class="section-title">Boolean Logic</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q4a</span>
+        <div class="q-text">
+          An algorithm uses <strong>AND</strong>: the cat stays indoors only if the red banner is flying <strong>AND</strong> it is raining.<br>
+          Complete the truth table — will the cat stay indoors (TRUE or FALSE)?
+        </div>
+        <span class="marks-chip">4 marks</span>
+      </div>
+      <table class="truth-table">
+        <thead>
+          <tr>
+            <th>Red Banner Flying</th>
+            <th>Operator</th>
+            <th>Raining?</th>
+            <th>Stay Indoors?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="input-cell">YES (TRUE)</td>
+            <td class="input-cell">AND</td>
+            <td class="input-cell">YES (TRUE)</td>
+            <td>
+              <select name="q4a_1">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="input-cell">YES (TRUE)</td>
+            <td class="input-cell">AND</td>
+            <td class="input-cell">NO (FALSE)</td>
+            <td>
+              <select name="q4a_2">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="input-cell">NO (FALSE)</td>
+            <td class="input-cell">AND</td>
+            <td class="input-cell">YES (TRUE)</td>
+            <td>
+              <select name="q4a_3">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="input-cell">NO (FALSE)</td>
+            <td class="input-cell">AND</td>
+            <td class="input-cell">NO (FALSE)</td>
+            <td>
+              <select name="q4a_4">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q4b</span>
+        <div class="q-text">
+          The algorithm is changed to use <strong>OR</strong>: the cat stays indoors if the red banner is flying <strong>OR</strong> it is raining.<br>
+          Complete the truth table.
+        </div>
+        <span class="marks-chip">4 marks</span>
+      </div>
+      <table class="truth-table">
+        <thead>
+          <tr>
+            <th>Red Banner Flying</th>
+            <th>Operator</th>
+            <th>Raining?</th>
+            <th>Stay Indoors?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="input-cell">YES (TRUE)</td>
+            <td class="input-cell">OR</td>
+            <td class="input-cell">YES (TRUE)</td>
+            <td>
+              <select name="q4b_1">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="input-cell">YES (TRUE)</td>
+            <td class="input-cell">OR</td>
+            <td class="input-cell">NO (FALSE)</td>
+            <td>
+              <select name="q4b_2">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="input-cell">NO (FALSE)</td>
+            <td class="input-cell">OR</td>
+            <td class="input-cell">YES (TRUE)</td>
+            <td>
+              <select name="q4b_3">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="input-cell">NO (FALSE)</td>
+            <td class="input-cell">OR</td>
+            <td class="input-cell">NO (FALSE)</td>
+            <td>
+              <select name="q4b_4">
+                <option value="">—</option>
+                <option value="TRUE">TRUE</option>
+                <option value="FALSE">FALSE</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q5 — Binary to Decimal -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q5</span>
+      <span class="section-title">Binary to Decimal Conversion</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q5</span>
+        <span class="q-text">Convert the following 8-bit binary numbers into their decimal equivalents.</span>
+        <span class="marks-chip">4 marks</span>
+      </div>
+      <div class="callout">
+        <strong>Reminder:</strong> The column values for 8 bits are: 128 · 64 · 32 · 16 · 8 · 4 · 2 · 1
+      </div>
+      <table class="binary-table">
+        <thead>
+          <tr><th>Binary Number</th><th>Decimal Answer</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1100 0011</td>
+            <td><input type="text" name="q5_1" id="q5_1" placeholder="?"></td>
+          </tr>
+          <tr>
+            <td>0000 1010</td>
+            <td><input type="text" name="q5_2" id="q5_2" placeholder="?"></td>
+          </tr>
+          <tr>
+            <td>0110 0001</td>
+            <td><input type="text" name="q5_3" id="q5_3" placeholder="?"></td>
+          </tr>
+          <tr>
+            <td>0110 1100</td>
+            <td><input type="text" name="q5_4" id="q5_4" placeholder="?"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q6 — Hardware & Software -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q6</span>
+      <span class="section-title">Hardware &amp; Software</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q6a</span>
+        <span class="q-text">Label the three hardware components shown in the exam. The first letter(s) of each answer are given as a clue.</span>
+        <span class="marks-chip">3 marks</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px;">
+        <div>
+          <label class="field-label" for="q6a_1">1. G________ C____ <br><small style="color:var(--text-subtle);font-size:11px;">(card with fans — red/black)</small></label>
+          <input type="text" id="q6a_1" name="q6a_1" placeholder="G... C...">
+        </div>
+        <div>
+          <label class="field-label" for="q6a_2">2. R_______ <br><small style="color:var(--text-subtle);font-size:11px;">(green memory sticks)</small></label>
+          <input type="text" id="q6a_2" name="q6a_2" placeholder="R...">
+        </div>
+        <div>
+          <label class="field-label" for="q6a_3">3. M__________ <br><small style="color:var(--text-subtle);font-size:11px;">(large green circuit board)</small></label>
+          <input type="text" id="q6a_3" name="q6a_3" placeholder="M...">
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q6b</span>
+        <span class="q-text">Define what is meant by <strong>software</strong>.</span>
+        <span class="marks-chip">1 mark</span>
+      </div>
+      <textarea name="q6b" id="q6b" placeholder="Define software..."></textarea>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q6c</span>
+        <span class="q-text">Define what is meant by <strong>hardware</strong>.</span>
+        <span class="marks-chip">1 mark</span>
+      </div>
+      <textarea name="q6c" id="q6c" placeholder="Define hardware..."></textarea>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q6d</span>
+        <span class="q-text">List <strong>2 different types</strong> of operating system.</span>
+        <span class="marks-chip">2 marks</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;">
+        <div>
+          <label class="field-label">Operating System 1</label>
+          <input type="text" name="q6d_1" id="q6d_1" placeholder="e.g. Windows">
+        </div>
+        <div>
+          <label class="field-label">Operating System 2</label>
+          <input type="text" name="q6d_2" id="q6d_2" placeholder="e.g. macOS">
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q7 — ASCII -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q7</span>
+      <span class="section-title">ASCII &amp; Character Encoding</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q7a</span>
+        <span class="q-text">Using the ASCII chart on the exam paper, how does a computer represent the <strong>lowercase letter e</strong> as a binary number? Enter each bit in a separate box.</span>
+        <span class="marks-chip">1 mark</span>
+      </div>
+      <div class="callout">
+        <strong>ASCII chart excerpt:</strong> e = 0110 0101
+      </div>
+      <div class="binary-answer-row">
+        <input type="text" name="q7a_b1" maxlength="1" placeholder="0" id="q7a_b1">
+        <input type="text" name="q7a_b2" maxlength="1" placeholder="1" id="q7a_b2">
+        <input type="text" name="q7a_b3" maxlength="1" placeholder="1" id="q7a_b3">
+        <input type="text" name="q7a_b4" maxlength="1" placeholder="0" id="q7a_b4">
+        <input type="text" name="q7a_b5" maxlength="1" placeholder="0" id="q7a_b5">
+        <input type="text" name="q7a_b6" maxlength="1" placeholder="1" id="q7a_b6">
+        <input type="text" name="q7a_b7" maxlength="1" placeholder="0" id="q7a_b7">
+        <input type="text" name="q7a_b8" maxlength="1" placeholder="1" id="q7a_b8">
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q7b</span>
+        <div class="q-text">
+          Using the ASCII chart, decode this binary sequence into English:
+          <div class="example-box">0101 0000 &nbsp; 0110 1000 &nbsp; 0110 1111 &nbsp; 0110 1110 &nbsp; 0110 0101</div>
+        </div>
+        <span class="marks-chip">1 mark</span>
+      </div>
+      <div>
+        <label class="field-label">Decoded word (5 characters)</label>
+        <input type="text" name="q7b" id="q7b" placeholder="Enter the decoded word" maxlength="20">
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q8 — Bitmap image -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q8</span>
+      <span class="section-title">Bitmap Images</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q8</span>
+        <div class="q-text">
+          The grid below represents a 1-bit image (1 = black, 0 = white). The pixel art is shown rendered on the right. What shape/face does it look like?
+        </div>
+        <span class="marks-chip">2 marks</span>
+      </div>
+      <div class="pixel-grid-wrapper">
+        <!-- Rendered pixel art -->
+        <div>
+          <label class="field-label" style="margin-bottom:8px;">Rendered image</label>
+          <div class="pixel-grid" id="pixelGrid"></div>
+        </div>
+        <!-- Binary data -->
+        <div>
+          <label class="field-label" style="margin-bottom:8px;">Binary data</label>
+          <div class="pixel-data" id="pixelData"></div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <label class="field-label">Q8a — How many bits are used to store this image in total?</label>
+        <input type="text" name="q8a" id="q8a" placeholder="Calculate: rows × columns × bits per pixel" style="max-width:280px;">
+      </div>
+      <div style="margin-top:14px;">
+        <label class="field-label">Q8b — What does the image appear to show?</label>
+        <input type="text" name="q8b" id="q8b" placeholder="Describe the image..." style="max-width:360px;">
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q9 — Ethernet vs WiFi -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q9</span>
+      <span class="section-title">Networking — Ethernet vs WiFi</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q9</span>
+        <span class="q-text">Tick the correct column — is each description more appropriate for <strong>Ethernet</strong> or <strong>WiFi</strong>?</span>
+        <span class="marks-chip">5 marks</span>
+      </div>
+      <table class="tick-table">
+        <thead>
+          <tr><th>Description</th><th>Ethernet ✓</th><th>WiFi ✓</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A wired connection</td>
+            <td><input type="radio" name="q9_1" value="ethernet"></td>
+            <td><input type="radio" name="q9_1" value="wifi"></td>
+          </tr>
+          <tr>
+            <td>More likely to be affected by interference</td>
+            <td><input type="radio" name="q9_2" value="ethernet"></td>
+            <td><input type="radio" name="q9_2" value="wifi"></td>
+          </tr>
+          <tr>
+            <td>Data can be transmitted at a faster speed</td>
+            <td><input type="radio" name="q9_3" value="ethernet"></td>
+            <td><input type="radio" name="q9_3" value="wifi"></td>
+          </tr>
+          <tr>
+            <td>Wireless Transmission</td>
+            <td><input type="radio" name="q9_4" value="ethernet"></td>
+            <td><input type="radio" name="q9_4" value="wifi"></td>
+          </tr>
+          <tr>
+            <td>Shorter transmission range before data is lost</td>
+            <td><input type="radio" name="q9_5" value="ethernet"></td>
+            <td><input type="radio" name="q9_5" value="wifi"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q10 — Logic Gates -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q10</span>
+      <span class="section-title">Logic Gates</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q10</span>
+        <span class="q-text">Name each of the three logic gate symbols shown.</span>
+        <span class="marks-chip">3 marks</span>
+      </div>
+      <div class="gates-grid">
+        <!-- AND gate -->
+        <div class="gate-card">
+          <svg width="80" height="50" viewBox="0 0 80 50">
+            <line x1="0" y1="15" x2="20" y2="15" stroke="#8b949e" stroke-width="2"/>
+            <line x1="0" y1="35" x2="20" y2="35" stroke="#8b949e" stroke-width="2"/>
+            <path d="M20 10 L20 40 L45 40 Q65 40 65 25 Q65 10 45 10 Z" fill="none" stroke="#58a6ff" stroke-width="2"/>
+            <line x1="65" y1="25" x2="80" y2="25" stroke="#8b949e" stroke-width="2"/>
+          </svg>
+          <label class="field-label">Gate i — Name</label>
+          <input type="text" name="q10_i" id="q10_i" placeholder="Gate name...">
+        </div>
+        <!-- NOT gate -->
+        <div class="gate-card">
+          <svg width="80" height="50" viewBox="0 0 80 50">
+            <line x1="0" y1="25" x2="15" y2="25" stroke="#8b949e" stroke-width="2"/>
+            <polygon points="15,10 15,40 55,25" fill="none" stroke="#58a6ff" stroke-width="2"/>
+            <circle cx="60" cy="25" r="5" fill="none" stroke="#58a6ff" stroke-width="2"/>
+            <line x1="65" y1="25" x2="80" y2="25" stroke="#8b949e" stroke-width="2"/>
+          </svg>
+          <label class="field-label">Gate ii — Name</label>
+          <input type="text" name="q10_ii" id="q10_ii" placeholder="Gate name...">
+        </div>
+        <!-- OR gate -->
+        <div class="gate-card">
+          <svg width="80" height="50" viewBox="0 0 80 50">
+            <line x1="0" y1="15" x2="18" y2="15" stroke="#8b949e" stroke-width="2"/>
+            <line x1="0" y1="35" x2="18" y2="35" stroke="#8b949e" stroke-width="2"/>
+            <path d="M15 10 Q25 25 15 40 Q35 40 55 25 Q35 10 15 10 Z" fill="none" stroke="#58a6ff" stroke-width="2"/>
+            <line x1="55" y1="25" x2="80" y2="25" stroke="#8b949e" stroke-width="2"/>
+          </svg>
+          <label class="field-label">Gate iii — Name</label>
+          <input type="text" name="q10_iii" id="q10_iii" placeholder="Gate name...">
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Q11 — Storage sizes -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="section-divider">
+      <span class="section-num">Q11</span>
+      <span class="section-title">Storage Devices</span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-header">
+        <span class="q-num">Q11</span>
+        <span class="q-text">Rank these storage devices from <strong>smallest to largest</strong> capacity. Assign rank 1 (smallest) to 4 (largest).</span>
+        <span class="marks-chip">2 marks</span>
+      </div>
+      <div class="storage-list">
+        <div class="storage-item">
+          <span class="dev-name">CD</span>
+          <span class="dev-size">70 MB</span>
+          <label>Rank (1–4):</label>
+          <select name="q11_cd">
+            <option value="">—</option>
+            <option value="1">1 — Smallest</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 — Largest</option>
+          </select>
+        </div>
+        <div class="storage-item">
+          <span class="dev-name">USB</span>
+          <span class="dev-size">8 GB</span>
+          <label>Rank (1–4):</label>
+          <select name="q11_usb">
+            <option value="">—</option>
+            <option value="1">1 — Smallest</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 — Largest</option>
+          </select>
+        </div>
+        <div class="storage-item">
+          <span class="dev-name">Floppy Disk</span>
+          <span class="dev-size">1.44 MB</span>
+          <label>Rank (1–4):</label>
+          <select name="q11_floppy">
+            <option value="">—</option>
+            <option value="1">1 — Smallest</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 — Largest</option>
+          </select>
+        </div>
+        <div class="storage-item">
+          <span class="dev-name">Hard Drive</span>
+          <span class="dev-size">1 TB</span>
+          <label>Rank (1–4):</label>
+          <select name="q11_hdd">
+            <option value="">—</option>
+            <option value="1">1 — Smallest</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 — Largest</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════ -->
+    <!-- Submit -->
+    <!-- ════════════════════════════════════════ -->
+    <div class="submit-wrap">
+      <button type="submit" class="btn-submit" id="submitBtn">Submit Exam</button>
+      <p class="submit-note">Your answers will be marked automatically and logged by your teacher.</p>
+    </div>
+
+  </form>
+</div><!-- /container -->
+
+<script>
+// ════════════════════════════════════════════════
+// CONFIG — replace with your deployed Apps Script URL
+// ════════════════════════════════════════════════
+const BACKEND_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+// ────────────────────────────────────────────────
+// Pixel grid render (Q8)
+// ────────────────────────────────────────────────
+(function renderPixelGrid() {
+  const data = [
+    [0,0,0,0,0,0,0,0],
+    [0,1,1,0,0,1,1,0],
+    [0,1,1,0,0,1,1,0],
+    [0,0,0,1,1,0,0,0],
+    [1,0,0,0,0,0,0,1],
+    [0,1,1,1,1,1,1,0],
+    [0,0,1,0,0,1,0,0],
+    [0,0,0,0,0,0,0,0]
+  ];
+
+  const grid = document.getElementById('pixelGrid');
+  const dataDiv = document.getElementById('pixelData');
+
+  data.forEach(row => {
+    row.forEach(bit => {
+      const cell = document.createElement('div');
+      cell.className = 'pixel-cell ' + (bit === 1 ? 'black' : 'white');
+      grid.appendChild(cell);
+    });
+    // data display
+    const rowEl = document.createElement('div');
+    rowEl.className = 'row';
+    row.forEach(bit => {
+      const b = document.createElement('span');
+      b.className = bit === 1 ? 'b1' : 'b0';
+      b.textContent = bit;
+      rowEl.appendChild(b);
+    });
+    dataDiv.appendChild(rowEl);
+  });
+})();
+
+// ────────────────────────────────────────────────
+// Auto-advance binary input boxes (Q7a)
+// ────────────────────────────────────────────────
+document.querySelectorAll('.binary-answer-row input').forEach((inp, i, all) => {
+  inp.addEventListener('input', () => {
+    const v = inp.value.replace(/[^01]/g, '');
+    inp.value = v.slice(-1);
+    if (v && i < all.length - 1) all[i + 1].focus();
+  });
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Backspace' && !inp.value && i > 0) all[i - 1].focus();
+  });
+});
+
+// ────────────────────────────────────────────────
+// Overlay helpers
+// ────────────────────────────────────────────────
+const overlay = document.getElementById('status-overlay');
+
+function showSpinner() {
+  overlay.innerHTML = `
+    <div class="spinner"></div>
+    <p style="color:var(--text-muted);font-size:14px;">Submitting your answers…</p>
+  `;
+  overlay.classList.add('active');
+}
+
+function showResult(data) {
+  const total = data.totalScore ?? '?';
+  const outOf = data.outOf ?? 45;
+  const pct = Math.round((total / outOf) * 100);
+  const fb = Array.isArray(data.feedback) ? data.feedback : [];
+
+  overlay.innerHTML = `
+    <div class="result-card">
+      <h2>Exam submitted ✓</h2>
+      <p style="color:var(--text-muted);font-size:13px;">Your teacher has received your results.</p>
+      <div class="score-display">${total}<span style="font-size:24px;color:var(--text-muted)">/${outOf}</span></div>
+      <p class="score-label">${pct}% — ${gradeLabel(pct)}</p>
+      <div class="feedback-section">
+        <h3>Feedback</h3>
+        <ul class="feedback-list">
+          ${fb.map(f => `<li class="${f.type || 'ok'}">${f.message}</li>`).join('')}
+        </ul>
+      </div>
+      <button class="btn-dismiss" onclick="overlay.classList.remove('active')">Close</button>
+    </div>
+  `;
+}
+
+function showError(msg) {
+  overlay.innerHTML = `
+    <div class="error-card">
+      <h2>Submission failed</h2>
+      <p>${msg || 'Something went wrong. Please ask your teacher.'}</p>
+      <button class="btn-dismiss" onclick="overlay.classList.remove('active')">Try again</button>
+    </div>
+  `;
+}
+
+function gradeLabel(pct) {
+  if (pct >= 90) return 'Outstanding';
+  if (pct >= 78) return 'Strong pass';
+  if (pct >= 65) return 'Solid foundation';
+  if (pct >= 50) return 'Developing';
+  return 'Needs support';
+}
+
+// ────────────────────────────────────────────────
+// Form collection & submission
+// ────────────────────────────────────────────────
+document.getElementById('exam-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+
+  if (!name || !cls) {
+    alert('Please enter your full name and select your class before submitting.');
+    return;
+  }
+
+  const fd = new FormData(this);
+  const get = k => (fd.get(k) || '').trim();
+
+  // Build Q7a binary string
+  const q7a_binary = [
+    get('q7a_b1'), get('q7a_b2'), get('q7a_b3'), get('q7a_b4'),
+    get('q7a_b5'), get('q7a_b6'), get('q7a_b7'), get('q7a_b8')
+  ].join('');
+
+  const payload = {
+    studentName:   name,
+    studentClass:  cls,
+    timestamp:     new Date().toISOString(),
+
+    // Q1
+    q1_algorithm:     get('q1_algorithm'),
+    q1_decompose:     get('q1_decompose'),
+    q1_abstraction:   get('q1_abstraction'),
+    q1_comp_thinking: get('q1_comp_thinking'),
+
+    // Q2
+    q2a_A:   get('q2a_A'),
+    q2a_B:   get('q2a_B'),
+    q2a_C:   get('q2a_C'),
+    q2b_i:   get('q2b_i'),
+    q2b_ii:  get('q2b_ii'),
+
+    // Q3
+    q3a: get('q3a'),
+    q3b: get('q3b'),
+
+    // Q4a (AND)
+    q4a_1: get('q4a_1'),
+    q4a_2: get('q4a_2'),
+    q4a_3: get('q4a_3'),
+    q4a_4: get('q4a_4'),
+
+    // Q4b (OR)
+    q4b_1: get('q4b_1'),
+    q4b_2: get('q4b_2'),
+    q4b_3: get('q4b_3'),
+    q4b_4: get('q4b_4'),
+
+    // Q5
+    q5_1: get('q5_1'),
+    q5_2: get('q5_2'),
+    q5_3: get('q5_3'),
+    q5_4: get('q5_4'),
+
+    // Q6
+    q6a_1: get('q6a_1'),
+    q6a_2: get('q6a_2'),
+    q6a_3: get('q6a_3'),
+    q6b:   get('q6b'),
+    q6c:   get('q6c'),
+    q6d_1: get('q6d_1'),
+    q6d_2: get('q6d_2'),
+
+    // Q7
+    q7a_binary: q7a_binary,
+    q7b: get('q7b'),
+
+    // Q8
+    q8a: get('q8a'),
+    q8b: get('q8b'),
+
+    // Q9
+    q9_1: get('q9_1'),
+    q9_2: get('q9_2'),
+    q9_3: get('q9_3'),
+    q9_4: get('q9_4'),
+    q9_5: get('q9_5'),
+
+    // Q10
+    q10_i:   get('q10_i'),
+    q10_ii:  get('q10_ii'),
+    q10_iii: get('q10_iii'),
+
+    // Q11
+    q11_cd:     get('q11_cd'),
+    q11_usb:    get('q11_usb'),
+    q11_floppy: get('q11_floppy'),
+    q11_hdd:    get('q11_hdd'),
+  };
+
+  showSpinner();
+  document.getElementById('submitBtn').disabled = true;
+
+  try {
+    const res = await fetch(BACKEND_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    if (data.status === 'success') {
+      showResult(data);
+    } else {
+      showError(data.message || 'Server returned an error.');
+      document.getElementById('submitBtn').disabled = false;
+    }
+  } catch (err) {
+    console.error(err);
+    showError('Could not reach the marking server. Check your connection or ask your teacher.');
+    document.getElementById('submitBtn').disabled = false;
+  }
+});
+</script>
+</body>
+</html>
