@@ -1343,7 +1343,7 @@
 // ════════════════════════════════════════════════
 // CONFIG — replace with your deployed Apps Script URL
 // ════════════════════════════════════════════════
-const BACKEND_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+const BACKEND_URL = 'https://script.google.com/a/macros/stretfordhigh.com/s/AKfycbzfGtCJe5Om3rNq2jI-1k_bNDiWxsgVus3RbhB-WHAUbasP8vh_Ebo-kqtzu7XB18kjKQ/exec';
 
 // ────────────────────────────────────────────────
 // Pixel grid render (Q8)
